@@ -9,14 +9,12 @@ The goals are to:
 Compress and reconstruct CLIP image and text embeddings through a stochastic bottleneck.
 Align paired image and caption latents so that cross-modal retrieval works in the learned space.
 Study whether the latent space is smooth enough to interpolate in and generate from.
-Architecture
-image   -> CLIP ViT-B/32 image encoder (frozen) -> f_img (512-d, L2-normalized)
-                -> VAE_img: encoder -> flow -> z_img -> decoder -> f_img_hat
+### Architecture
+* image   -> CLIP ViT-B/32 image encoder (frozen) -> f_img (512-d, L2-normalized) -> VAE_img: encoder -> flow -> z_img -> decoder -> f_img_hat
 
-caption -> CLIP ViT-B/32 text encoder (frozen)  -> f_txt (512-d, L2-normalized)
-                -> VAE_txt: encoder -> flow -> z_txt -> decoder -> f_txt_hat
+* caption -> CLIP ViT-B/32 text encoder (frozen)  -> f_txt (512-d, L2-normalized) -> VAE_txt: encoder -> flow -> z_txt -> decoder -> f_txt_hat
 
-                  InfoNCE( z_img , z_txt )   (symmetric, in-batch negatives)
+* InfoNCE( z_img , z_txt )   (symmetric, in-batch negatives)
 * Feature extractor: pretrained CLIP ViT-B/32, kept frozen. Image and text features are L2-normalized.
 * Per-modality VAE: MLP encoder and decoder with reparameterized sampling.
 * Normalizing flow: Flows applied to the posterior sample to increase expressiveness (flow type and length are configurable).
